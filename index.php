@@ -1,30 +1,31 @@
 <?php
+session_start();
 require_once 'config/database.php';
 require_once 'models/Database.php';
-require_once 'controllers/UserController.php';
-require_once 'controllers/BookController.php';
-require_once     
+require_once 'models/User.php';
+require_once 'models/Book.php';
+require_once 'models/Borrowing.php';
 
-// Routage basique
-$controller = isset($_GET['controller']) ? $_GET['controller'] : 'book';
-$action = isset($_GET['action']) ? $_GET['action'] : 'list';
+$action = $_GET['action'] ?? 'home';
 
-// Instanciation du contrôleur approprié
-switch($controller) {
-    case 'user':
-        $controller = new UserController();
+switch($action) {
+    case 'login':
+        $user = new User();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if($user->login($_POST['email'], $_POST['password'])) {
+                header('Location: index.php?action=books');
+            }
+        }
+        include 'views/login.php';
         break;
-    case 'book':
-        $controller = new BookController();
+
+    case 'books':
+        $book = new Book();
+        $books = $book->getAllBooks();
+        include 'views/books/all.php';
         break;
+
     default:
-        // Gestion erreur 404
+        include 'views/login.php';
         break;
-}
-
-// Appel de l'action
-if(method_exists($controller, $action)) {
-    $controller->$action();
-} else {
-    // Gestion erreur 404
 }
