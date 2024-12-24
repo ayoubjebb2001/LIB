@@ -3,6 +3,7 @@ require_once 'config/database.php';
 require_once 'models/Database.php';
 require_once 'controllers/UserController.php';
 require_once 'controllers/BookController.php';
+require_once     
 
 // Routage basique
 $controller = isset($_GET['controller']) ? $_GET['controller'] : 'book';
