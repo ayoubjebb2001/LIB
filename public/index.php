@@ -13,6 +13,7 @@ require_once ROOT_PATH . '/controllers/BookController.php';
 require_once ROOT_PATH . '/models/Database.php';
 require_once ROOT_PATH . '/models/User.php';
 require_once ROOT_PATH . '/models/Book.php';
+require_once ROOT_PATH . '/models/Category.php';
 
 // Initialize router
 $router = new Router();
