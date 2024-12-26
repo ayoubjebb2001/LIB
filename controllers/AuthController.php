@@ -8,6 +8,10 @@ class AuthController extends BaseController {
     }
 
     public function showRegister() {
+        if(isset($_SESSION['user_id']))
+        {
+            $this->redirect('/');
+        }
         $this->render('auth/register', [
             'errors' => [],
             'inputs' => []
@@ -51,6 +55,10 @@ class AuthController extends BaseController {
     }
 
     public function showLogin() {
+        if(isset($_SESSION['user_id']))
+        {
+            $this->redirect('/');
+        }
         $this->render('auth/login', [
             'errors' => [],
             'inputs' => []
@@ -84,5 +92,10 @@ class AuthController extends BaseController {
             'errors' => $errors,
             'inputs' => $inputs
         ]);
+    }
+    public function logout(){
+        unset($_SESSION);
+        session_destroy();
+        $this->redirect('/login');
     }
 }
