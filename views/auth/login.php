@@ -1,3 +1,5 @@
+<?php
+require_once '../views/templates/header.php';?>
 <body>
     <section class="vh-100">
         <div class="container h-100">
@@ -10,7 +12,7 @@
                                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Login </p>
 
                                     <!-- Form Start-->
-                                    <form class="mx-1 mx-md-4" method="POST" action="login.php">
+                                    <form class="mx-1 mx-md-4" method="POST" action="/login">
 
                                         <!-- User Email -->
                                         <div class="d-flex flex-row align-items-center mb-4">
@@ -55,7 +57,7 @@
 
                                         <!-- Login link -->
                                         <p class="text-center text-muted mt-5 mb-0">Don't Have an account?
-                                            <a href="register.php" class="fw-bold text-body"><u>Register here</u></a>
+                                            <a href="/register" class="fw-bold text-body"><u>Register here</u></a>
                                         </p>
                                         <!-- Login link -->
 
@@ -75,3 +77,4 @@
             </div>
         </div>
     </section>
+<?php require_once '../views/templates/footer.php';?>
