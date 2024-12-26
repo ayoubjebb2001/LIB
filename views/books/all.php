@@ -8,8 +8,11 @@
         <!-- Categories Filter -->         
         <div class="col-md-3">             
             <select class="form-select" name="categories" id="categories" aria-label="Select category">                 
-                <option value="All">All Categories</option>                 
-                <option value="Fiction">Fiction</option>                 
+                <option value="All">All Categories</option>
+                <?php foreach($categories as $category): ?>
+                    <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+                <?php endforeach;?>
+                <!--<option value="Fiction">Fiction</option>                 
                 <option value="Non-Fiction">Non-Fiction</option>                 
                 <option value="Educational">Educational</option>                 
                 <option value="Children's Books">Children's Books</option>                 
@@ -18,7 +21,7 @@
                 <option value="Fantasy and Mythology">Fantasy and Mythology</option>                 
                 <option value="Poetry and Drama">Poetry and Drama</option>                 
                 <option value="Health and Wellness">Health and Wellness</option>                 
-                <option value="Religious and Spiritual">Religious and Spiritual</option>             
+                <option value="Religious and Spiritual">Religious and Spiritual</option>  -->           
             </select>         
         </div>          
 
@@ -43,11 +46,19 @@
         </div>
 
         <!-- Login Button -->
+         <?php if(isset($_SESSION['user_id'])): ?>
+            <div class="col-md-3 text-end">
+                <a href="/logout" class="btn btn-danger rounded-pill px-4 shadow-sm hover-shadow">
+                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                </a>
+            </div>
+        <?php else: ?>
         <div class="col-md-3 text-end">
             <a href="/login" class="btn btn-primary rounded-pill px-4 shadow-sm hover-shadow">
                 <i class="bi bi-person-circle me-2"></i>Login
             </a>
         </div>
+        <?php endif; ?>
     </div>
 </section>
 <!-- books bib  -->

@@ -7,7 +7,7 @@
         }
         public function index(){
             $this->render('books/all', [
-                'books' => $this->model->getAll(),
+                'categories' => (new Category())->getAll(),
             ]);
         }
 

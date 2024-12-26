@@ -7,7 +7,6 @@ class Book extends Database {
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
     }
 
     public function getBookById($id) {
