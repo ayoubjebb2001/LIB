@@ -7,6 +7,21 @@ class Book extends Database {
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+    }
+
+    public function getBookById($id) {
+        $sql = "SELECT * FROM {$this->table} WHERE id = :id";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getBookByCategory($category_id){
+        $sql = "SELECT * FROM {$this->table} WHERE category_id = :category_id";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute(['category_id' => $category_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function addBook($title, $author, $category_id, $summary) {

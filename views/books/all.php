@@ -1,7 +1,6 @@
 <?php
     require_once "../views/templates/header.php";
 ?>
-</p>
-    All Books
-</p>
+</body>
+    
 <?php require_once "../views/templates/footer.php"; ?>

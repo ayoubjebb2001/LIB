@@ -7,7 +7,9 @@
         }
         public function index(){
             $this->render('books/all', [
-                'books' => $this->model->getAll()
+                'books' => $this->model->getAll(),
             ]);
         }
+
+         
     }
