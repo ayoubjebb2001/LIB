@@ -7,7 +7,8 @@
     <div class="row align-items-center g-3">         
         <!-- Categories Filter -->         
         <div class="col-md-3">             
-            <select class="form-select" name="categories" id="categories" aria-label="Select category">                 
+            <select class="form-select" name="categories" id="categories" aria-label="Select category"
+            onchange="filter(this.value)">                 
                 <option value="All">All Categories</option>
                 <?php foreach($categories as $category): ?>
                     <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
@@ -224,5 +225,12 @@
         </div>
     </div>
 </section>
-</body>
+<!-- Ajax with jquery category filtering -->
+<script>
+    function filter($select) {
+        let request = new XMLHttpRequest();
+        request.onreadystatechange()
+    }
+</script>
+
 <?php require_once "../views/templates/footer.php"; ?>

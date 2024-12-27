@@ -25,6 +25,7 @@ $router->add('POST', '/register', 'AuthController', 'register');
 $router->add('GET', '/login', 'AuthController', 'showLogin');
 $router->add('POST', '/login', 'AuthController', 'login');
 $router->add('GET', '/logout', 'AuthController', 'logout');
+$router->add('GET' ,'/borrow ', 'BorrowController' ,'add');
 
 $router->add('GET', '/dashboard', 'AdminController', 'index');
 

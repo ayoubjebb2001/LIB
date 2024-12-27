@@ -2,6 +2,7 @@
 class Book extends Database {
     private $table = 'books';
     
+    
     public function getAll() {
         $sql = "SELECT * FROM {$this->table}";
         $stmt = $this->connect()->prepare($sql);
