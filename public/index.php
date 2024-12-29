@@ -20,6 +20,7 @@ $router = new Router();
 
 // Define routes
 $router->add('GET', '/', 'BookController', 'index');
+$router->add('POST', '/books/filter', 'BookController', 'index');
 $router->add('GET', '/register', 'AuthController', 'showRegister');
 $router->add('POST', '/register', 'AuthController', 'register');
 $router->add('GET', '/login', 'AuthController', 'showLogin');
