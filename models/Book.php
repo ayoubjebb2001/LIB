@@ -4,7 +4,7 @@ class Book extends Database {
     
     
     public function getAll() {
-        $sql = "SELECT * FROM {$this->table} JOIN categories ON books.category_id = categories.id";
+        $sql = "SELECT *,categories.name as category_name FROM {$this->table} JOIN categories ON books.category_id = categories.id";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -34,5 +34,32 @@ class Book extends Database {
             'category_id' => $category_id,
             'summary' => $summary
         ]);
+    }
+
+    public function getFiltered($category = 'All', $status = 'All', $search = '') {
+        $sql = "SELECT b.*, c.name as category_name 
+                FROM {$this->table} b 
+                JOIN categories c ON b.category_id = c.id 
+                WHERE 1=1";
+        $params = [];
+    
+        if($category !== 'All') {
+            $sql .= " AND b.category_id = :category";
+            $params['category'] = $category;
+        }
+    
+        if($status !== 'All') {
+            $sql .= " AND b.status = :status";
+            $params['status'] = $status;
+        }
+    
+        if(!empty($search)) {
+            $sql .= " AND (b.title LIKE :search OR b.author LIKE :search)";
+            $params['search'] = "%{$search}%";
+        }
+    
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
