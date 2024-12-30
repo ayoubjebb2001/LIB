@@ -16,6 +16,26 @@ class BookController extends BaseController
             'categories' => $this->categoryModel->getAll(),
         ]);
     }
+    public function details() {
+            $book_id = $_GET['id'] ?? null;
+            
+            if (!$book_id) {
+                header('Location: /');
+                exit;
+            }
+            $book = $this->model->getBookById($book_id);
+            
+            if (!$book) {
+                header('Location: /');
+                exit;
+            }
+            $category = new Category();
+            $cat = $category->getCategoryById($book['category_id']);
+            $this->render('books/details', [
+                'book' => $book,
+                'category' => $cat
+            ]);
+    }
 
     public function filter()
     {
