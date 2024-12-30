@@ -1,17 +1,17 @@
 <?php
-    require_once "../views/templates/header.php";
+require_once "../views/templates/header.php";
 ?>
 </body>
 <!-- for filter&&search  -->
-<section class="container py-4">     
-    <div class="row align-items-center g-3">         
-        <!-- Categories Filter -->         
-        <div class="col-md-3">             
-            <select class="form-select" name="categories" id="categories" aria-label="Select category">                 
+<section class="container py-4">
+    <div class="row align-items-center g-3">
+        <!-- Categories Filter -->
+        <div class="col-md-3">
+            <select class="form-select" name="categories" id="categories" aria-label="Select category">
                 <option value="All">All Categories</option>
-                <?php foreach($categories as $category): ?>
+                <?php foreach ($categories as $category): ?>
                     <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
-                <?php endforeach;?>
+                <?php endforeach; ?>
                 <!--<option value="Fiction">Fiction</option>                 
                 <option value="Non-Fiction">Non-Fiction</option>                 
                 <option value="Educational">Educational</option>                 
@@ -21,208 +21,127 @@
                 <option value="Fantasy and Mythology">Fantasy and Mythology</option>                 
                 <option value="Poetry and Drama">Poetry and Drama</option>                 
                 <option value="Health and Wellness">Health and Wellness</option>                 
-                <option value="Religious and Spiritual">Religious and Spiritual</option>  -->           
-            </select>         
-        </div>          
+                <option value="Religious and Spiritual">Religious and Spiritual</option>  -->
+            </select>
+        </div>
 
-        <!-- Status Filter -->         
-        <div class="col-md-3">             
-            <select class="form-select" name="status" id="status" aria-label="Select status">                 
-                <option value="All">All Status</option>                 
-                <option value="available">Available</option>                 
-                <option value="borrowed">Borrowed</option>                 
-                <option value="reserved">Reserved</option>             
-            </select>         
-        </div>  
+        <!-- Status Filter -->
+        <div class="col-md-3">
+            <select class="form-select" name="status" id="status" aria-label="Select status">
+                <option value="All">All Status</option>
+                <option value="available">Available</option>
+                <option value="borrowed">Borrowed</option>
+                <option value="reserved">Reserved</option>
+            </select>
+        </div>
 
         <!-- Search Input -->
         <div class="col-md-3">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search books..." aria-label="Search books">
+                <input type="text" class="form-control" id="search" placeholder="Search books..." aria-label="Search books">
                 <button class="btn btn-outline-secondary" type="button">
-                    <i class="bi bi-search"></i>Search
+                    <i class="fas fa-search"></i>
                 </button>
             </div>
         </div>
 
         <!-- Login Button -->
-         <?php if(isset($_SESSION['user_id'])): ?>
+        <?php if (isset($_SESSION['user_id'])): ?>
             <div class="col-md-3 text-end">
                 <a href="/logout" class="btn btn-danger rounded-pill px-4 shadow-sm hover-shadow">
                     <i class="bi bi-box-arrow-right me-2"></i>Logout
                 </a>
             </div>
         <?php else: ?>
-        <div class="col-md-3 text-end">
-            <a href="/login" class="btn btn-primary rounded-pill px-4 shadow-sm hover-shadow">
-                <i class="bi bi-person-circle me-2"></i>Login
-            </a>
-        </div>
+            <div class="col-md-3 text-end">
+                <a href="/login" class="btn btn-primary rounded-pill px-4 shadow-sm hover-shadow">
+                    <i class="bi bi-person-circle me-2"></i>Login
+                </a>
+            </div>
         <?php endif; ?>
     </div>
 </section>
 <!-- books bib  -->
- <section class="container py-4">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <img src="https://placehold.co/400x300" class="card-img-top" alt="Book cover">
-                <div class="card-body">
-                    <h5 class="card-title">Book Title</h5>
-                    <p class="card-text text-muted mb-1">Author Name</p>
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge bg-success">Available</span>
-                        <small class="text-muted">Fiction</small>
+<section class="books-container container py-4">
+    <?php if (empty($books)): ?>
+        <div class="alert alert-warning">No books found.</div>
+    <?php else: ?>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <?php foreach ($books as $book): ?>
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://placehold.co/400x300" class="card-img-top" alt="Book cover">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($book['title']) ?></h5>
+                            <p class="card-text text-muted mb-1"><?= htmlspecialchars($book['author']) ?></p>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <?php
+                                switch ($book['status']) {
+                                    case 'available':
+                                        echo '<span class="badge bg-success">Available</span>';
+                                        break;
+                                    case 'borrowed':
+                                        echo '<span class="badge bg-warning">Borrowed</span>';
+                                        break;
+                                    default:
+                                        echo '<span class="badge bg-danger">Reserved</span>';
+                                }
+                                ?>
+                                <small class="text-muted"><?= htmlspecialchars($book['category_name']) ?></small>
+                            </div>
+                            <p class="card-text"><?= htmlspecialchars($book['summary']) ?></p>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0">
+                            <div class="d-grid">
+                                <?php if ($book['status'] == 'available' && isset($_SESSION['user_id'])): ?>
+                                    <a href="/borrow?id=<?= $book['id'] ?>" class="btn btn-primary">Borrow Book</a>
+                                <?php elseif (!isset($_SESSION['user_id'])): ?>
+                                    <a href="/login" class="btn btn-outline-primary">Login to Borrow</a>
+                                <?php else: ?>
+                                    <button class="btn btn-secondary" disabled>Not Available</button>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
-                    <p class="card-text"> A brief summary of the book goes here. This engaging story takes readers on a journey through imagination and adventure, perfect for readers of all ages.</p>
                 </div>
-                <div class="card-footer bg-transparent border-top-0">
-                    <div class="d-grid">
-                        <button class="btn btn-outline-primary">Borrow Book</button>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
-
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <img src="https://placehold.co/400x300" class="card-img-top" alt="Book cover">
-                <div class="card-body">
-                    <h5 class="card-title">Another Book</h5>
-                    <p class="card-text text-muted mb-1">Second Author</p>
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge bg-warning text-dark">Reserved</span>
-                        <small class="text-muted">Non-Fiction</small>
-                    </div>
-                    <p class="card-text">An insightful exploration of modern science and its implications for our future. This book challenges readers to think differently about the world around them.</p>
-                </div>
-                <div class="card-footer bg-transparent border-top-0">
-                    <div class="d-grid">
-                        <button class="btn btn-outline-primary" disabled>Reserved</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <img src="https://placehold.co/400x300" class="card-img-top" alt="Book cover">
-                <div class="card-body">
-                    <h5 class="card-title">Third Book</h5>
-                    <p class="card-text text-muted mb-1">Third Author</p>
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge bg-danger">Borrowed</span>
-                        <small class="text-muted">Mystery</small>
-                    </div>
-                    <p class="card-text">A thrilling mystery that keeps readers guessing until the very end. Full of unexpected twists and turns, this book is impossible to put down.</p>
-                </div>
-                <div class="card-footer bg-transparent border-top-0">
-                    <div class="d-grid">
-                        <button class="btn btn-outline-primary" disabled>Borrowed</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <img src="https://placehold.co/400x300" class="card-img-top" alt="Book cover">
-                <div class="card-body">
-                    <h5 class="card-title">Third Book</h5>
-                    <p class="card-text text-muted mb-1">Third Author</p>
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge bg-danger">Borrowed</span>
-                        <small class="text-muted">Mystery</small>
-                    </div>
-                    <p class="card-text">A thrilling mystery that keeps readers guessing until the very end. Full of unexpected twists and turns, this book is impossible to put down.</p>
-                </div>
-                <div class="card-footer bg-transparent border-top-0">
-                    <div class="d-grid">
-                        <button class="btn btn-outline-primary" disabled>Borrowed</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-3 row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <img src="https://placehold.co/400x300" class="card-img-top" alt="Book cover">
-                <div class="card-body">
-                    <h5 class="card-title">Book Title</h5>
-                    <p class="card-text text-muted mb-1">Author Name</p>
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge bg-success">Available</span>
-                        <small class="text-muted">Fiction</small>
-                    </div>
-                    <p class="card-text"> A brief summary of the book goes here. This engaging story takes readers on a journey through imagination and adventure, perfect for readers of all ages.</p>
-                </div>
-                <div class="card-footer bg-transparent border-top-0">
-                    <div class="d-grid">
-                        <button class="btn btn-outline-primary">Borrow Book</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <img src="https://placehold.co/400x300" class="card-img-top" alt="Book cover">
-                <div class="card-body">
-                    <h5 class="card-title">Another Book</h5>
-                    <p class="card-text text-muted mb-1">Second Author</p>
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge bg-warning text-dark">Reserved</span>
-                        <small class="text-muted">Non-Fiction</small>
-                    </div>
-                    <p class="card-text">An insightful exploration of modern science and its implications for our future. This book challenges readers to think differently about the world around them.</p>
-                </div>
-                <div class="card-footer bg-transparent border-top-0">
-                    <div class="d-grid">
-                        <button class="btn btn-outline-primary" disabled>Reserved</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <img src="https://placehold.co/400x300" class="card-img-top" alt="Book cover">
-                <div class="card-body">
-                    <h5 class="card-title">Third Book</h5>
-                    <p class="card-text text-muted mb-1">Third Author</p>
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge bg-danger">Borrowed</span>
-                        <small class="text-muted">Mystery</small>
-                    </div>
-                    <p class="card-text">A thrilling mystery that keeps readers guessing until the very end. Full of unexpected twists and turns, this book is impossible to put down.</p>
-                </div>
-                <div class="card-footer bg-transparent border-top-0">
-                    <div class="d-grid">
-                        <button class="btn btn-outline-primary" disabled>Borrowed</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <img src="https://placehold.co/400x300" class="card-img-top" alt="Book cover">
-                <div class="card-body">
-                    <h5 class="card-title">Third Book</h5>
-                    <p class="card-text text-muted mb-1">Third Author</p>
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge bg-danger">Borrowed</span>
-                        <small class="text-muted">Mystery</small>
-                    </div>
-                    <p class="card-text">A thrilling mystery that keeps readers guessing until the very end. Full of unexpected twists and turns, this book is impossible to put down.</p>
-                </div>
-                <div class="card-footer bg-transparent border-top-0">
-                    <div class="d-grid">
-                        <button class="btn btn-outline-primary" disabled>Borrowed</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php endif; ?>
 </section>
-</body>
+<!-- Ajax with jquery category filtering -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        function filterBooks() {
+            const category = $('#categories').val();
+            const status = $('#status').val();
+            const search = $('#search').val();
+
+            $.ajax({
+                url: '/books/filter',
+                method: 'POST',
+                data: {
+                    category: category,
+                    status: status,
+                    search: search
+                },
+                success: function(response) {
+                    $('.books-container').html(response);
+                }
+            });
+        }
+
+        $('#categories, #status').on('change', filterBooks);
+        $('#search').on('keyup', debounce(filterBooks, 500));
+
+        function debounce(func, wait) {
+            let timeout;
+            return function() {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, arguments), wait);
+            };
+        }
+    });
+</script>
+
 <?php require_once "../views/templates/footer.php"; ?>
