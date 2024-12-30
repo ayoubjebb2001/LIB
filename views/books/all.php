@@ -97,9 +97,9 @@ require_once "../views/templates/header.php";
                             <div class="d-grid">
                                 <?php if(isset($_SESSION['user_id'])){ ?>
                                 <?php if ($book['status'] == 'available'): ?>
-                                    <a href="/borrow?id=<?= $book['id'] ?>" class="btn btn-primary">Borrow Book</a>
+                                    <a href="/borrow?id=<?= $book['book_id'] ?>" class="btn btn-primary">Borrow Book</a>
                                 <?php elseif ($book['status'] == 'borrowed'): ?>
-                                    <a href="/reserve?id=<?=$book['id'] ?>" class="btn btn-secondary">Reserve Book</a>
+                                    <a href="/reserve?id=<?=$book['book_id'] ?>" class="btn btn-secondary">Reserve Book</a>
                                 <?php elseif ($book['status'] == 'reserved'): ?>
                                     <button class="btn btn-secondary" disabled>Reserved</button>
                                 <?php endif; ?>

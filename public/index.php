@@ -28,6 +28,7 @@ $router->add('POST', '/login', 'AuthController', 'login');
 $router->add('GET', '/logout', 'AuthController', 'logout');
 $router->add('GET', '/book/details', 'BookController', 'details');
 $router->add('GET' ,'/borrow ', 'BorrowController' ,'add');
+$router->add('GET' ,'/reserve ', 'BorrowController' ,'reserve');
 
 
 $router->add('GET', '/dashboard', 'AdminController', 'index');

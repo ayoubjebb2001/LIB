@@ -6,7 +6,7 @@
         <div class="col-md-4">
             <img src="https://placehold.co/400x500" class="img-fluid rounded shadow" alt="Book cover">
         </div>
-        
+
         <!-- Book Details -->
         <div class="col-md-8">
             <nav aria-label="breadcrumb">
@@ -17,7 +17,7 @@
             </nav>
 
             <h1 class="mb-4"><?= htmlspecialchars($book['title']) ?></h1>
-            
+
             <div class="mb-4">
                 <h5 class="text-muted">By <?= htmlspecialchars($book['author']) ?></h5>
                 <span class="badge <?= $book['status'] === 'available' ? 'bg-success' : 'bg-secondary' ?> mb-2">
@@ -32,17 +32,17 @@
                     <p class="card-text"><?= nl2br(htmlspecialchars($book['summary'])) ?></p>
                 </div>
             </div>
-
-            <?php if($book['status'] === 'available'): ?>
-            <button class="btn btn-primary btn-lg">
-                <i class="bi bi-book me-2"></i>Borrow this Book
-            </button>
-            <?php else: ?>
-            <button class="btn btn-secondary btn-lg" disabled>
-                Currently Unavailable
-            </button>
-            <?php endif; ?>
-            
+            <?php if (isset($_SESSION['user_id'])) { ?>
+                <?php if ($book['status'] == 'available'): ?>
+                    <a href="/borrow?id=<?= $book['id'] ?>" class="btn btn-primary btn-lg">Borrow Book</a>
+                <?php elseif ($book['status'] == 'borrowed'): ?>
+                    <a href="/reserve?id=<?= $book['id'] ?>" class="btn btn-secondary btn-lg">Reserve Book</a>
+                <?php elseif ($book['status'] == 'reserved'): ?>
+                    <button class="btn btn-secondary btn-lg" disabled>Reserved</button>
+                <?php endif; ?>
+            <?php } else { ?>
+                <a href="/login" class="btn btn-outline-primary btn-lg">Login</a>
+            <?php } ?>
             <a href="/" class="btn btn-outline-secondary btn-lg ms-2">
                 <i class="bi bi-arrow-left me-2"></i>Back to Books
             </a>

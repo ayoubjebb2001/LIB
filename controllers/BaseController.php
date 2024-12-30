@@ -10,4 +10,9 @@ abstract class BaseController {
         header("Location: $url");
         exit();
     }
+
+    protected function with($key, $value) {
+        $_SESSION[$key] = $value;
+        return $this;
+    }
 }
