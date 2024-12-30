@@ -4,7 +4,7 @@ class Book extends Database {
     
     
     public function getAll() {
-        $sql = "SELECT *,categories.name as category_name FROM {$this->table} JOIN categories ON books.category_id = categories.id";
+        $sql = "SELECT books.id as book_id, title,author,summary,status,categories.name as category_name FROM {$this->table} JOIN categories ON books.category_id = categories.id";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

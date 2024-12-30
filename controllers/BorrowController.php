@@ -6,7 +6,7 @@
             $this->model = new Borrowing();
         }
 
-        public function Borrow(){
+        public function add(){
             if(!isset($_SESSION['user_id'])){
                 $this->redirect('/login');
             }

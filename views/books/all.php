@@ -72,7 +72,9 @@ require_once "../views/templates/header.php";
                     <div class="card h-100 shadow-sm">
                         <img src="https://placehold.co/400x300" class="card-img-top" alt="Book cover">
                         <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($book['title']) ?></h5>
+                            <a href="/book/details?id=<?= $book['book_id'] ?>" class="link-dark text-decoration-none">
+                                <h5 class="card-title"><?= htmlspecialchars($book['title']) ?></h5>
+                            </a>
                             <p class="card-text text-muted mb-1"><?= htmlspecialchars($book['author']) ?></p>
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <?php
@@ -93,13 +95,17 @@ require_once "../views/templates/header.php";
                         </div>
                         <div class="card-footer bg-transparent border-top-0">
                             <div class="d-grid">
-                                <?php if ($book['status'] == 'available' && isset($_SESSION['user_id'])): ?>
+                                <?php if(isset($_SESSION['user_id'])){ ?>
+                                <?php if ($book['status'] == 'available'): ?>
                                     <a href="/borrow?id=<?= $book['id'] ?>" class="btn btn-primary">Borrow Book</a>
-                                <?php elseif (!isset($_SESSION['user_id'])): ?>
-                                    <a href="/login" class="btn btn-outline-primary">Login to Borrow</a>
-                                <?php else: ?>
-                                    <button class="btn btn-secondary" disabled>Not Available</button>
+                                <?php elseif ($book['status'] == 'borrowed'): ?>
+                                    <a href="/reserve?id=<?=$book['id'] ?>" class="btn btn-secondary">Reserve Book</a>
+                                <?php elseif ($book['status'] == 'reserved'): ?>
+                                    <button class="btn btn-secondary" disabled>Reserved</button>
                                 <?php endif; ?>
+                                <?php }else{ ?>
+                                    <a href="/login" class="btn btn-outline-primary">Login</a>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
