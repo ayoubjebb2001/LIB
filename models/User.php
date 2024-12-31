@@ -105,7 +105,7 @@ class User extends Database
         header('Location: ../views/login.php');
     }
     function getborrowing($currentUser){
-        $sthM = $this->connect()->prepare("SELECT borrowings.id,borrowings.user_id,borrowings.book_id,books.title,books.author,books.summary FROM borrowings JOIN books WHERE borrowings.user_id = ? AND borrowings.book_id = books.id AND return_date IS NULL AND books.status != 'available' ");
+        $sthM = $this->connect()->prepare("SELECT borrowings.id,borrowings.user_id,borrowings.book_id,books.title,books.author,books.summary FROM borrowings JOIN books WHERE borrowings.user_id = ? AND borrowings.book_id = books.id AND return_date IS NULL AND CURDATE() BETWEEN borrow_date AND due_date");
         $sthM->execute([$currentUser]);
         return $sthM->fetchAll(PDO::FETCH_ASSOC);
     }
