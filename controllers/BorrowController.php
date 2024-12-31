@@ -10,7 +10,8 @@
             if(!isset($_SESSION['user_id'])){
                 $this->redirect('/login');
             }
-            $this->model->borrowBook($_SESSION['user_id'],$_GET['id']);
+            // convert GET['id'] to integer
+            $this->model->borrowBook($_SESSION['user_id'], intval($_GET['id']));
             $this->redirect('/')->with('success', 'Book borrowed successfully.');
         }
 

@@ -10,10 +10,12 @@ require_once ROOT_PATH . '/routes/Router.php';
 require_once ROOT_PATH . '/controllers/BaseController.php';
 require_once ROOT_PATH . '/controllers/AuthController.php';
 require_once ROOT_PATH . '/controllers/BookController.php';
+require_once ROOT_PATH . '/controllers/BorrowController.php';
 require_once ROOT_PATH . '/models/Database.php';
 require_once ROOT_PATH . '/models/User.php';
 require_once ROOT_PATH . '/models/Book.php';
 require_once ROOT_PATH . '/models/Category.php';
+require_once ROOT_PATH . '/models/Borrowing.php';
 
 // Initialize router
 $router = new Router();
@@ -27,8 +29,8 @@ $router->add('GET', '/login', 'AuthController', 'showLogin');
 $router->add('POST', '/login', 'AuthController', 'login');
 $router->add('GET', '/logout', 'AuthController', 'logout');
 $router->add('GET', '/book/details', 'BookController', 'details');
-$router->add('GET' ,'/borrow ', 'BorrowController' ,'add');
-$router->add('GET' ,'/reserve ', 'BorrowController' ,'reserve');
+$router->add('GET' ,'/borrow', 'BorrowController' ,'add');
+$router->add('GET' ,'/reserve', 'BorrowController' ,'reserve');
 
 
 $router->add('GET', '/dashboard', 'AdminController', 'index');
