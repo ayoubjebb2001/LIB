@@ -98,4 +98,15 @@ class AuthController extends BaseController {
         session_destroy();
         $this->redirect('/login');
     }
+    public function index(){
+        $currentUser = $_SESSION['user_id'];
+        $borows = $this->userModel-> getborrowing($currentUser);
+        $this->render('/books/MyBooks',[
+            'borows'=> $borows
+        ]);
+    }
+    public function indexR(){
+        $this->render('/books/reserve');
+        // my reservation
+    }
 }

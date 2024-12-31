@@ -16,7 +16,7 @@ require_once "../views/templates/header.php";
           <a class="nav-link" href="/user/books" >My Books</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">My Reservations</a>
+          <a class="nav-link" href="/user/reserve">My Reservations</a>
         </li>
       </ul>
       <ul class="navbar-nav">
