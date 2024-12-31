@@ -4,7 +4,7 @@ require_once "../views/templates/header.php";
 </body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand">BooksStore</a>
+    <a class="navbar-brand">LIBooK</a>
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
       <span class="navbar-toggler-icon"></span>
@@ -37,8 +37,23 @@ require_once "../views/templates/header.php";
     </div>
   </div>
 </nav>
+
+<!--Display Success and Error Messages-->
+<?php if (isset($_SESSION['success'])): ?>
+    <div class="alert alert-success"><?= $_SESSION['success'] ?></div>
+    <?php unset($_SESSION['success']); ?>
+<?php endif; ?>
 <!-- for filter&&search  -->
 <section class="container py-4">
+    <!-- Success/Error Messages -->
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="alert alert-success"><?= $_SESSION['success'] ?></div>
+        <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="alert alert-danger"><?= $_SESSION['error'] ?></div>
+        <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
     <div class="row align-items-center g-3">
         <!-- Categories Filter -->
         <div class="col-md-3">
@@ -118,9 +133,9 @@ require_once "../views/templates/header.php";
                             <div class="d-grid">
                                 <?php if(isset($_SESSION['user_id'])){ ?>
                                 <?php if ($book['status'] == 'available'): ?>
-                                    <a href="/borrow?id=<?= $book['id'] ?>" class="btn btn-primary">Borrow Book</a>
+                                    <a href="/borrow?id=<?= $book['book_id'] ?>" class="btn btn-primary">Borrow Book</a>
                                 <?php elseif ($book['status'] == 'borrowed'): ?>
-                                    <a href="/reserve?id=<?=$book['id'] ?>" class="btn btn-secondary">Reserve Book</a>
+                                    <a href="/reserve?id=<?=$book['book_id'] ?>" class="btn btn-secondary">Reserve Book</a>
                                 <?php elseif ($book['status'] == 'reserved'): ?>
                                     <button class="btn btn-secondary" disabled>Reserved</button>
                                 <?php endif; ?>
