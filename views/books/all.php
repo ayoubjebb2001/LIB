@@ -4,7 +4,7 @@ require_once "../views/templates/header.php";
 </body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand">BooksStore</a>
+    <a class="navbar-brand" href="/">BooksStore</a>
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
       <span class="navbar-toggler-icon"></span>
@@ -16,7 +16,7 @@ require_once "../views/templates/header.php";
           <a class="nav-link" href="/user/books" >My Books</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">My Reservations</a>
+          <a class="nav-link" href="/user/reserve">My Reservations</a>
         </li>
       </ul>
       <ul class="navbar-nav">
