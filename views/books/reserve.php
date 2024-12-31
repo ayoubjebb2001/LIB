@@ -1,37 +1,16 @@
 <!-- hadi lRESERVATION -->
 <?php
 require_once "../views/templates/header.php";
-$servername = "localhost";
-$username = "root";
-$password = "";
-
-try {
-  $conn = new PDO("mysql:host=$servername;dbname=bibliotheque", $username, $password);
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  echo "Connected successfully";
-} catch(PDOException $e) {
-  echo "Connection failed: " . $e->getMessage();
-}
-
-
-$sth = $conn->prepare("SELECT * FROM books");
-$sth->execute();
-$books = $sth->fetchAll(PDO::FETCH_ASSOC);
-$currentUser = $_SESSION['user_id'];
-$sthM = $conn->prepare("SELECT borrowings.id,borrowings.user_id,borrowings.book_id,books.title,books.author,books.summary FROM borrowings JOIN books WHERE borrowings.user_id = ? AND borrowings.book_id = books.id AND books.status = 'reserved' AND return_date IS NULL ");
-$sthM->execute([$currentUser]);
-$borows = $sthM->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 <!-- books bib  -->
 <section class="books-container container py-4">
 
-    <?php if (empty($borows)): ?>
+    <?php if (empty($sthM)): ?>
         <div class="alert alert-warning">No books found.</div>
     <?php else: ?>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
             <?php
-             foreach ($borows as $borow): 
+             foreach ($sthM as $borow): 
                 ?>
                 <div class="col">
                     <div class="card h-100 shadow-sm">

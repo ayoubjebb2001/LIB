@@ -105,8 +105,11 @@ class AuthController extends BaseController {
             'borows'=> $borows
         ]);
     }
-    public function indexR(){
-        $this->render('/books/reserve');
-        // my reservation
+    public function reservation(){
+        $currentUser = $_SESSION['user_id'];
+        $sthM = $this->userModel->getReservations($currentUser);
+        $this->render('/books/reserve',[
+            'sthM' => $sthM
+        ]);
     }
 }

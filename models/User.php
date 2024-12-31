@@ -109,4 +109,10 @@ class User extends Database
         $sthM->execute([$currentUser]);
         return $sthM->fetchAll(PDO::FETCH_ASSOC);
     }
+    function getReservations($currentUser){
+        $sthM = $this->connect()->prepare("SELECT borrowings.id,borrowings.user_id,borrowings.book_id,books.title,books.author,books.summary FROM borrowings JOIN books WHERE borrowings.user_id = ? AND borrowings.book_id = books.id AND books.status = 'reserved' AND return_date IS NULL ");
+        $sthM->execute([$currentUser]);
+        return $sthM->fetchAll(PDO::FETCH_ASSOC);
+
+    }
 }
