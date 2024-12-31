@@ -53,9 +53,24 @@ class Borrowing extends Database {
         return $stmt->fetch();
     }
 
-    public function returnBook($borrowing_id) {
-        $sql = "UPDATE {$this->table} SET return_date = CURDATE() WHERE id = :id";
+    public function returnBook($user_id,$book_id) {
+        $sql = "UPDATE {$this->table} SET return_date = CURDATE() WHERE user_id = :user_id AND book_id = :book_id AND return_date IS NULL";
         $stmt = $this->connect()->prepare($sql);
-        return $stmt->execute(['id' => $borrowing_id]);
+        $stmt->execute([
+            'user_id' => $user_id,
+            'book_id' => $book_id
+        ]);
+        // Check if the book is reserved or borrowed
+        $sql = "SELECT status FROM books WHERE id = :book_id";
+        $stmt = $this->connect()->prepare($sql);
+        $status = $stmt->execute(['book_id' => $book_id]);
+        if ($status == 'borrowed') {
+            $sql = "UPDATE books SET status = 'available' WHERE id = :book_id";
+            
+        }else{
+            $sql = "UPDATE books SET status = 'borrowed' WHERE id = :book_id";
+        }
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute(['book_id' => $book_id]);
     }
 }

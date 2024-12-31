@@ -34,7 +34,7 @@ $router->add('GET', '/user/books', 'AuthController', 'index');
 $router->add('GET', '/user/reserve', 'AuthController', 'indexR');
 $router->add('GET' ,'/borrow ', 'BorrowController' ,'add');
 $router->add('GET' ,'/reserve', 'BorrowController' ,'reserve');
-$router->add('GET' ,'/retrun', 'BorrowController' ,'return');
+$router->add('GET' ,'/return', 'BorrowController' ,'return');
 $router->add('GET', '/dashboard', 'AdminController', 'index');
 
 // Dispatch request
