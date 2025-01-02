@@ -99,6 +99,10 @@ class AuthController extends BaseController {
         $this->redirect('/login');
     }
     public function index(){
+        if(!isset($_SESSION['user_id']))
+        {
+            $this->redirect('/');
+        }
         $currentUser = $_SESSION['user_id'];
         $borows = $this->userModel-> getborrowing($currentUser);
         $this->render('/books/MyBooks',[
@@ -106,6 +110,10 @@ class AuthController extends BaseController {
         ]);
     }
     public function reservation(){
+        if(!isset($_SESSION['user_id']))
+        {
+            $this->redirect('/');
+        }
         $currentUser = $_SESSION['user_id'];
         $sthM = $this->userModel->getReservations($currentUser);
         $this->render('/books/reserve',[

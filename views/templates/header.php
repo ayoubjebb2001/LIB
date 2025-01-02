@@ -17,8 +17,9 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
       <span class="navbar-toggler-icon"></span>
     </button>
-
+    
     <div class="collapse navbar-collapse" id="navbarContent">
+      <?php if (isset($_SESSION['user_id'])): ?>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" href="/user/books" >My Books</a>
@@ -28,7 +29,6 @@
         </li>
       </ul>
       <ul class="navbar-nav">
-      <?php if (isset($_SESSION['user_id'])): ?>
             <div class="col-md-3 text-end">
                 <a href="/logout" class="btn btn-danger rounded-pill px-4 shadow-sm hover-shadow">
                     <i class="bi bi-box-arrow-right me-2"></i>Logout
