@@ -15,6 +15,7 @@ class Router {
     public function dispatch() {
         $method = $_SERVER['REQUEST_METHOD'];
         $path = $_SERVER['REQUEST_URI'];
+        // Remove base path from URL
         $path = parse_url($path, PHP_URL_PATH);
 
         foreach ($this->routes as $route) {
