@@ -32,10 +32,9 @@ $router->add('GET', '/logout', 'AuthController', 'logout');
 $router->add('GET', '/book/details', 'BookController', 'details');
 $router->add('GET', '/user/books', 'AuthController', 'index');
 $router->add('GET', '/user/reserve', 'AuthController', 'reservation');
-$router->add('GET' ,'/borrow ', 'BorrowController' ,'add');
-$router->add('GET' ,'/reserve', 'BorrowController' ,'reserve');
-$router->add('GET' ,'/return', 'BorrowController' ,'return');
-$router->add('GET', '/dashboard', 'AdminController', 'index');
+$router->add('GET', '/borrow ', 'BorrowController', 'add');
+$router->add('GET', '/reserve', 'BorrowController', 'reserve');
+$router->add('GET', '/return', 'BorrowController', 'return');
 
 // Dispatch request
 $router->dispatch();

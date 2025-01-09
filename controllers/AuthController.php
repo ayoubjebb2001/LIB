@@ -74,7 +74,7 @@ class AuthController extends BaseController {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($this->userModel->login($inputs['email'], $inputs['password'])) {
-                if($this->userModel->getRole() == "admin")
+                if($_SESSION['user_role'] == "admin")
                 {
                     $this->redirect('/dashboard');
                 }
